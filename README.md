@@ -1,25 +1,24 @@
 
-# Quick Compo
+# listen&talk App
 
 <br>
 
 ## Description
 
-This is an app to manage unofficial tournaments within communities. The app helps to organize, manage and track competitions.
+This is an social network app. You can finally interact in a social network, with just audio.
 
 ## User Stories
 
 -  **404:** As an anon/user I can see a 404 page if I try to reach a page that does not exist so that I know it's my fault
--  **Signup:** As an anon I can sign up in the platform so that I can start playing into competition
--  **Login:** As a user I can login to the platform so that I can play competitions
--  **Logout:** As a user I can logout from the platform so no one else can use it
--  **Add Tournaments** As a user I can add a tournament
--  **Edit Tournaments** As a user I can edit a tournament
--  **Add Player Names** As a user I can add players to a tournament
--  **Edit Player profiles** As a user I can edit a player profile to fit into the tournament view
--  **View Tournament Table** As a user I want to see the tournament table
--  **Edit Games** As a user I can edit the games, so I can add scores
--  **View Ranks** As a user I can see the ranks
+-  **Signup:** As an anon I can sign up in the platform so that I can start recording talks or listen to newly created talks.
+-  **Login:** As a user I can login to the platform so that I can either record or listen talks.
+-  **Logout:** As a user I can logout from the platform so no one else can use it.
+-  **Add Talks** As a user I can add a new talk, and listen to a talk created by someone else.
+-  **Edit Talks** As a user I can edit my talks.
+-  **Delete Talks** As a user I can delete my talks.
+-  **Edit profiles** As a user I can edit my profile to my personal like.
+-  **View Home** As a user I want to see all the talks that have been created.
+
 
 
 
@@ -27,12 +26,10 @@ This is an app to manage unofficial tournaments within communities. The app help
 ## Backlog
 
 User profile:
-- see my profile
-- change tournament mode to FFA
-- Add weather widget
-- lottie interactions
-- users can bet
-- add geolocation to events when creating
+-  **View users profile** As a user I can see other user's profile, and their talks, if they accept my friend request.
+-  **Interact with other users** As a user I can interact with others user's talks, responding to their talk.
+-  **Search for a friend** As a user I can search other user's name and add them to friends
+
 
 
 <br>
@@ -43,53 +40,40 @@ User profile:
 ## Routes
 | Path                      | Component            | Permissions | Behavior                                                     |
 | ------------------------- | -------------------- | ----------- | ------------------------------------------------------------ |
-| `/`                       | SplashPage           | public      | Home page                                        |
-| `/auth/signup`            | SignupPage           | anon only   | Signup form, link to login, navigate to homepage after signup |
-| `/auth/login`             | LoginPage            | anon only   | Login form, link to signup, navigate to homepage after login |
-| `/auth/logout`            | n/a                  | anon only   | Navigate to homepage after logout, expire session            |
-| `/tournaments`            | TournamentListPage   | user only   | Shows all tournaments in a list                              |
-| `/tournaments/add`        | TournamentListPage   | user only   | Edits a tournament                                           |
-| `/tournaments/:id`        | TournamentDetailPage | user only   | Details of a tournament to edit                              |
-| `/tournament/:id`         | na                   | user only   | Delete tournament                                            |
-| `/tournament/players`     | PlayersListPage      | user only   | List of players of a tournament                              |
-| `/tournament/players/add` | PlayersListPage      | user only   | Add a player to the tournament                               |
-| `/tournament/players/:id` | PlayersDetailPage    | user only   | Edit player for tournament                                   |
-| `/tournament/players/:id` | PlayersListPage      | user only   | Delete player from tournament                                |
-| `/tournament/tableview`   | TableView            | user only   | Games view and brackets                                      |
-| `/tournament/ranks`       | RanksPage            | user only   | Ranks list                                                   |
-| `/tournament/game`        | GameDetailPage       | user only   | Game details                                                  |
-| `/tournament/game`        | Game                 | user only   |                                                              |
+| `/splash`                 | Splash               | public      | Log in or Signup                                             |
+| `/auth/signup`            | Signup               | anon only   | Signup form, link to login, navigate to homepage after signup|
+| `/auth/login`             | Login                | anon only   | Login form, link to signup, navigate to homepage after login |
+| `/auth/logout`            | n/a                  | anon only   | Navigate to splashpage after logout, expire session          |
+| `/home`                   | Home                 | user only   | Shows all talks in a list                                    |
+| `/profile`                | Profile              | user only   | Shows user's profile info                                    |
+| `/talks/add`              | Talk                 | user only   | Adds a talk                                                  |
+| `/profile/:id`            | TalkDetail           | user only   | Shows all the talks the user created, other user's can see and interact with the user |
+| `/talks/:id`              | na                   | user only   | Delete talks                                                 |
+
 
 
 ## Components
 
-- LoginPage
+- Login
 
-- SplashPage
+- Splash
 
-- TournamentListPage
+- SignUp
 
-- Tournament Cell
+- Home
 
-- TournamentDetailPage
+- Profile
 
-- TableViewPage
+- Talk
 
-- PlayersListPage
-
-- PlayerDetailPage
-
-- RanksPage
-
-- TournamentDetailPageOutput
+- TalkDetail
 
 - Navbar
 
+- Footer
 
-  
 
  
-
 ## Services
 
 - Auth Service
