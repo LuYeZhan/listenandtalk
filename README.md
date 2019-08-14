@@ -46,7 +46,8 @@ User profile:
 | `/auth/logout`            | n/a                  | anon only   | Navigate to splashpage after logout, expire session          |
 | `/home`                   | Home                 | user only   | Shows all talks in a list                                    |
 | `/profile`                | Profile              | user only   | Shows user's profile info                                    |
-| `/talks/add`              | Talk                 | user only   | Adds a talk                                                  |
+| `/profile/edit`           | Profile              | user only   | Shows form where you can edit his info                       |
+| `/create-talk`            | Talk                 | user only   | Adds a talk                                                  |
 | `/profile/:id`            | TalkDetail           | user only   | Shows all the talks the user created, other user's can see and interact with the user |
 | `/talks/:id`              | na                   | user only   | Delete talks                                                 |
 
@@ -64,9 +65,7 @@ User profile:
 
 - Profile
 
-- Talk
-
-- TalkDetail
+- CreateTalk
 
 - Navbar
 
@@ -81,22 +80,16 @@ User profile:
   - auth.signup(user)
   - auth.logout()
   - auth.me()
-  - auth.getUser() // synchronous
-- Tournament Service
-  - tournament.list()
-  - tournament.detail(id)
-  - tournament.add(id)
-  - tournament.delete(id)
+  - auth.getUser() // synchronous [search]
+- Talk Service
+  - talk.list()
+  - talk.create
+  - talk.delete(id)
+  - talk.put(id)
   
-- Player Service 
+- User Service 
 
-  - player.detail(id)
-  - player.add(id)
-  - player.delete(id)
-
-- Game Service
-
-  - Game.put(id)
+  - user.detail(id)
 
 
 
@@ -115,41 +108,23 @@ User model
   username - String // required
   email - String // required & unique
   password - String // required
-  favorites - [ObjectID<Restaurant>]
+  friends - String 
+  request - String
+  talks - String
+
 }
 ```
 
-Tournament model
+Talks model
 
 ```javascript
  {
    name:String,
-   img:String,
-   players: [{type: Schema.Types.ObjectId,ref:'Participant'}],
-   games:[{type: Schema.Types.ObjectId,ref:'Game'}]
+   audio:String,
+   users: [{type: Schema.Types.ObjectId,ref:'Users'}],
+   author:[{type: Schema.Types.ObjectId,ref:'Talks'}],
+   tags: 
  }
-```
-
-Player model
-
-```javascript
-{
-  name: String,
-  img: String,
-  score: []
-}
-```
-
-Game model
-
-```javascript
-{
-  player1: [{type: Schema.Types.ObjectId,ref:'Participant'}],
-  player2: [{type: Schema.Types.ObjectId,ref:'Player'}],
-  player2: [{type: Schema.Types.ObjectId,ref:'Player'}],
-  winner: String,
-  img :String
-}
 ```
 
 
@@ -164,22 +139,11 @@ Game model
 | POST        | /auth/signup                | {name, email, password}      | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
 | POST        | /auth/login                 | {username, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
 | POST        | /auth/logout                | (empty)                      | 204            | 400          | Logs out the user                                            |
-| GET         | /tournaments                |                              |                | 400          | Show all tournaments                                         |
-| GET         | /tournaments/:id            | {id}                         |                |              | Show specific tournament                                     |
-| POST        | /tournaments/add-tournament | {}                           | 201            | 400          | Create and save a new tournament                             |
-| PUT         | /tournaments/edit/:id       | {name,img,players}           | 200            | 400          | edit tournament                                              |
-| DELETE      | /tournaments/delete/:id     | {id}                         | 201            | 400          | delete tournament                                            |
-| GET         | /players                    |                              |                | 400          | show players                                                 |
-| GET         | /players/:id                | {id}                         |                |              | show specific player                                         |
-| POST        | /players/add-player         | {name,img,tournamentId}      | 200            | 404          | add player                                                   |
-| PUT         | /players/edit/:id           | {name,img}                   | 201            | 400          | edit player                                                  |
-| DELETE      | /players/delete/:id         | {id}                         | 200            | 400          | delete player                                                |
-| GET         | /games                      | {}                           | 201            | 400          | show games                                                   |
-| GET         | /games/:id                  | {id,tournamentId}            |                |              | show specific game                                           |
-| POST        | /games/add-game             | {player1,player2,winner,img} |                |              | add game                                                     |
-| POST        | /games/add-all-games        |                              |                |              | add all games from a tournament. Gets a list of players and populates them via algorithm. |
-| PUT         | /games/edit/:id             | {winner,score}               |                |              | edit game                                                    |
-|             |                             |                              |                |              |                                                              |
+| POST        | /profile/edit               | { name, email, password, }   | 200            | 400          | Edit's users profile info
+| GET         | /home                       |                              |                | 400          | Show all talks info                                          |                                 |
+| POST        | /create-talk                | {}                           | 201            | 400          | Create and save a new talk                             |
+| PUT         | /talk/edit/:id              | {title, date, description}   | 200            | 400          | edit talk                                             |
+| DELETE      | /talk/delete/:id            | {id}                         | 201            | 400          | delete talk                                            |
 
 
 <br>
@@ -189,8 +153,8 @@ Game model
 
 ### Trello/Kanban
 
-[Link to your trello board](https://trello.com/b/PBqtkUFX/curasan) 
-or picture of your physical board
+
+picture of your physical board
 
 ### Git
 
